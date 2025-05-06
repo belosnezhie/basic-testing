@@ -14,7 +14,7 @@ const testCases = [
 
 describe('simpleCalculator', () => {
   test.each(testCases)(
-    'should return correct results %o',
+    'should return $expected when called with $a $action $b',
     ({ a, b, action, expected }) => {
       const result = simpleCalculator({ a, b, action });
 

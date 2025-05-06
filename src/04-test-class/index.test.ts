@@ -1,33 +1,57 @@
-// Uncomment the code below and write your tests
-// import { getBankAccount } from '.';
+import { getBankAccount, InsufficientFundsError, TransferFailedError } from '.';
+
+const initialBalance = 800;
 
 describe('BankAccount', () => {
   test('should create account with initial balance', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+
+    expect(newBankAccount.getBalance()).toEqual(initialBalance);
   });
 
   test('should throw InsufficientFundsError error when withdrawing more than balance', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+    const error = new InsufficientFundsError(initialBalance);
+
+    expect(() => newBankAccount.withdraw(900)).toThrow(error);
   });
 
   test('should throw error when transferring more than balance', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+    const toBankAccount = getBankAccount(initialBalance);
+    const error = new InsufficientFundsError(initialBalance);
+
+    expect(() => newBankAccount.transfer(900, toBankAccount)).toThrow(error);
   });
 
   test('should throw error when transferring to the same account', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+    const error = new TransferFailedError();
+
+    expect(() => newBankAccount.transfer(900, newBankAccount)).toThrow(error);
   });
 
   test('should deposit money', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+    newBankAccount.deposit(initialBalance);
+
+    expect(newBankAccount.getBalance()).toStrictEqual(1600);
   });
 
   test('should withdraw money', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+    newBankAccount.withdraw(initialBalance);
+
+    expect(newBankAccount.getBalance()).toStrictEqual(0);
   });
 
   test('should transfer money', () => {
-    // Write your test here
+    const newBankAccount = getBankAccount(initialBalance);
+    const toBankAccount = getBankAccount(initialBalance);
+    newBankAccount.transfer(400, toBankAccount);
+
+    expect(newBankAccount.getBalance()).toStrictEqual(400);
+    expect(toBankAccount.getBalance()).toStrictEqual(1200);
   });
 
   test('fetchBalance should return number in case if request did not failed', async () => {
